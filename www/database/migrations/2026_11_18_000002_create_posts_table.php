@@ -10,9 +10,14 @@ return new class extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('category_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('category_id')->constrained()->cascadeOnDelete();
             $table->string('title');
+            $table->date('activity_date');
             $table->text('content');
+            $table->string('authors');
+            $table->string('image')->nullable();
+            $table->enum('status', ['borrador', 'publicado'])->default('borrador');
             $table->timestamps();
         });
     }
