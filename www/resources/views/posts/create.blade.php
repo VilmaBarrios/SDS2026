@@ -7,7 +7,7 @@
     <div class="card-body">
         <form action="{{ route('posts.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
-            @include('posts._form')
+            @include('posts.form')
             <div class="mt-4">
                 <button type="submit" class="btn btn-primary">Guardar</button>
                 <a href="{{ route('posts.index') }}" class="btn btn-outline-secondary">Cancelar</a>

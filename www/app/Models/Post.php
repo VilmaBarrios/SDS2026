@@ -13,7 +13,7 @@ class Post extends Model
         'user_id',
         'category_id',
         'title',
-        'activity_date',
+        'date',
         'content',
         'authors',
         'image',
@@ -21,7 +21,7 @@ class Post extends Model
     ];
 
     protected $casts = [
-        'activity_date' => 'date',
+        'date' => 'date',
     ];
 
     public function category()
@@ -33,6 +33,10 @@ class Post extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function images()
+{
+    return $this->hasMany(PostImage::class);
+}
 
     public function scopePublicados($query)
     {
