@@ -57,4 +57,12 @@
             <img src="{{ asset('storage/' . $post->image) }}" class="img-thumbnail mt-2" style="max-height:150px;">
         @endif
     </div>
+    <div class="col-12">
+    <label class="form-label">Galería de imágenes (collage)</label>
+    <input type="file" name="images[]" accept="image/*" multiple
+           class="form-control @error('images') is-invalid @enderror @error('images.*') is-invalid @enderror">
+    <div class="form-text">Puedes seleccionar varias imágenes a la vez (máximo 10, de 2 MB cada una).</div>
+    @error('images') <div class="invalid-feedback d-block">{{ $message }}</div> @enderror
+    @error('images.*') <div class="invalid-feedback d-block">{{ $message }}</div> @enderror
+</div>
 </div>

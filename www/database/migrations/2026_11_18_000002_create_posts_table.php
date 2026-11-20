@@ -13,7 +13,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('category_id')->constrained()->cascadeOnDelete();
             $table->string('title');
-            $table->date('activity_date');
+            $table->date('date');
             $table->text('content');
             $table->string('authors');
             $table->string('image')->nullable();
