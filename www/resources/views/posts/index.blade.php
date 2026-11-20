@@ -24,7 +24,7 @@
                     </div>
 
                     <h5 class="card-title fw-bold" style="color: #0d3b26;">{{ $post->title }}</h5>
-                    <small class="text-muted mb-2">{{ $post->activity_date->format('d/m/Y') }} · {{ $post->authors }}</small>
+                    <small class="text-muted mb-2">{{ $post->date?->format('d/m/Y') }} · {{ $post->authors }}</small>
 
                     <p class="card-text text-muted flex-grow-1">{{ Str::limit($post->content, 130) }}</p>
 
