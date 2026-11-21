@@ -33,6 +33,7 @@ class LoginController extends Controller
 
             return redirect()->route('posts.index')
                 ->with('success', 'Sesión iniciada correctamente.');
+            return redirect()->intended(route('posts.index'));
         }
 
         return back()
