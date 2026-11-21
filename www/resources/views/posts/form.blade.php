@@ -38,7 +38,7 @@
     <div class="col-12">
         <label class="form-label">Autor(es)</label>
         <input type="text" name="authors" class="form-control @error('authors') is-invalid @enderror"
-               placeholder="Ej: Alexander Retana, Nombre Compañero"
+               placeholder="Ej: Nombre Autor"
                value="{{ old('authors', $post->authors ?? '') }}">
         @error('authors') <div class="invalid-feedback">{{ $message }}</div> @enderror
     </div>

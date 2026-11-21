@@ -263,7 +263,7 @@
     <nav class="navbar navbar-expand-lg navbar-sds sticky-top">
         <div class="container py-1">
             <!-- Marca con SVG idéntico a ambos logos oficiales -->
-            <a class="navbar-brand brand-logo-wrapper py-0" href="{{ auth()->check() ? route('posts.index') : route('login') }}" title="SDS26 Green IoT">
+            <a class="navbar-brand brand-logo-wrapper py-0" href="{{ route('inicio') }}" title="SDS26 Green IoT">
                 <!-- Logo Versión Clara (con corchetes negros y señal centrada) -->
                 <svg class="logo-light-mode" width="142" height="48" viewBox="0 0 210 95" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <circle cx="105" cy="27" r="4.2" fill="#8CC63F"/>
@@ -320,7 +320,12 @@
             @auth
                 <div class="collapse navbar-collapse mt-3 mt-lg-0 order-lg-2" id="navbarMain">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-1 ms-lg-4">
-                        <li class="nav-item">
+                    <li class="nav-item">
+                    <a class="nav-link nav-link-sds {{ request()->routeIs('inicio') || request()->routeIs('blog.show') ? 'active' : '' }}" href="{{ route('inicio') }}">
+                        <i class="bi bi-house-door me-1"></i> Inicio
+                    </a>
+                </li>   
+                    <li class="nav-item">
                             <a class="nav-link nav-link-sds {{ request()->routeIs('posts.index') || request()->routeIs('posts.show') ? 'active' : '' }}" href="{{ route('posts.index') }}">
                                 <i class="bi bi-journal-richtext me-1"></i> Bitácora
                             </a>
