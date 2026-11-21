@@ -11,7 +11,7 @@
         <div class="col-md-6">
             <div class="card h-100 shadow-sm">
                 @if($post->image)
-                    <img src="{{ asset('storage/' . $post->image) }}" class="card-img-top" style="height:200px;object-fit:cover;" alt="{{ $post->title }}">
+                  <img src="{{ $post->urlImagen() }}" class="card-img-top" style="height:200px;object-fit:cover;" alt="{{ $post->title }}">
                 @endif
                 <div class="card-body d-flex flex-column">
                     <div class="d-flex justify-content-between align-items-start mb-2">
