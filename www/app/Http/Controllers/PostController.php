@@ -129,6 +129,13 @@ class PostController extends Controller
         }
     }
 
+        private function borrarArchivo(?string $ruta): void
+{
+    if ($ruta && ! str_starts_with($ruta, 'img/')) {
+        Storage::disk('public')->delete($ruta);
+    }
+}
+
     private function validar(Request $request): array
     {
         return $request->validate([
@@ -143,4 +150,5 @@ class PostController extends Controller
             'status'      => 'required|in:borrador,publicado',
         ]);
     }
+
 }

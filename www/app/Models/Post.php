@@ -42,4 +42,14 @@ class Post extends Model
     {
         return $query->where('status', 'publicado');
     }
+    public function urlImagen(): ?string
+{
+    if (! $this->image) {
+        return null;
+    }
+
+    return str_starts_with($this->image, 'img/')
+        ? asset($this->image)
+        : asset('storage/' . $this->image);
+}
 }
