@@ -259,10 +259,56 @@
 </head>
 <body class="d-flex flex-column min-vh-100">
 
-    <nav class="navbar navbar-expand-lg navbar-dark navbar-iot shadow-sm mb-4">
-        <div class="container">
-            <a class="navbar-brand fw-bold" href="{{ route('posts.index') }}">SDS 2026</a>
-            <div class="navbar-nav ms-auto align-items-center">
+    <!-- NAVBAR CON LOGO OFICIAL SDS26 GREEN IOT -->
+    <nav class="navbar navbar-expand-lg navbar-sds sticky-top">
+        <div class="container py-1">
+            <!-- Marca con SVG idéntico a ambos logos oficiales -->
+            <a class="navbar-brand brand-logo-wrapper py-0" href="{{ route('inicio') }}" title="SDS26 Green IoT">
+                <!-- Logo Versión Clara (con corchetes negros y señal centrada) -->
+                <svg class="logo-light-mode" width="142" height="48" viewBox="0 0 210 95" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="105" cy="27" r="4.2" fill="#8CC63F"/>
+                    <path d="M94 21C100 15.5 110 15.5 116 21" stroke="#8CC63F" stroke-width="4.5" stroke-linecap="round"/>
+                    <path d="M86 14C96.5 4.8 113.5 4.8 124 14" stroke="#8CC63F" stroke-width="4.5" stroke-linecap="round"/>
+                    <path d="M22 33H15V67H22" stroke="#0A0A0A" stroke-width="3.2"/>
+                    <rect x="13" y="31.5" width="7" height="3" fill="#0A0A0A"/>
+                    <rect x="13" y="65.5" width="7" height="3" fill="#0A0A0A"/>
+                    <path d="M188 33H195V67H188" stroke="#0A0A0A" stroke-width="3.2"/>
+                    <rect x="190" y="31.5" width="7" height="3" fill="#0A0A0A"/>
+                    <rect x="190" y="65.5" width="7" height="3" fill="#0A0A0A"/>
+                    <text x="26" y="65" font-family="Montserrat, sans-serif" font-weight="900" font-size="43" letter-spacing="-1.5" fill="#0A0A0A">SDS</text>
+                    <text x="124" y="65" font-family="Montserrat, sans-serif" font-weight="900" font-size="43" letter-spacing="-1.5" fill="#8CC63F">26</text>
+                    <text x="34" y="86" font-family="Montserrat, sans-serif" font-weight="800" font-size="18.5" letter-spacing="1.2" fill="#8CC63F">GREEN</text>
+                    <text x="126" y="86" font-family="Montserrat, sans-serif" font-weight="800" font-size="18.5" letter-spacing="1.2" fill="#0A0A0A">IOT</text>
+                </svg>
+
+                <!-- Logo Versión Oscura (fondo negro, corchetes y texto blanco) -->
+                <svg class="logo-dark-mode" width="138" height="46" viewBox="0 0 260 95" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="96" cy="27" r="4.2" fill="#8CC63F"/>
+                    <path d="M85 21C91 15.5 101 15.5 107 21" stroke="#8CC63F" stroke-width="4.5" stroke-linecap="round"/>
+                    <path d="M77 14C87.5 4.8 104.5 4.8 115 14" stroke="#8CC63F" stroke-width="4.5" stroke-linecap="round"/>
+                    <path d="M20 33H14V67H20" stroke="#FFFFFF" stroke-width="3.2"/>
+                    <path d="M182 33H188V67H182" stroke="#FFFFFF" stroke-width="3.2"/>
+                    <text x="24" y="65" font-family="Montserrat, sans-serif" font-weight="900" font-size="43" letter-spacing="-1.5" fill="#FFFFFF">SDS</text>
+                    <text x="122" y="65" font-family="Montserrat, sans-serif" font-weight="900" font-size="43" letter-spacing="-1.5" fill="#8CC63F">26</text>
+                    <text x="34" y="86" font-family="Montserrat, sans-serif" font-weight="800" font-size="18.5" letter-spacing="1.2" fill="#8CC63F">GREEN</text>
+                    <text x="124" y="86" font-family="Montserrat, sans-serif" font-weight="800" font-size="18.5" letter-spacing="1.2" fill="#FFFFFF">IOT</text>
+                </svg>
+            </a>
+
+            <div class="d-flex align-items-center gap-2 order-lg-3">
+                <!-- Botón Acceso Admin visible cuando NO se ha iniciado sesión -->
+                @guest
+                    <a href="{{ route('login') }}" class="btn btn-admin-access btn-sm d-inline-flex align-items-center gap-1">
+                        <i class="bi bi-shield-lock-fill"></i>
+                        <span>Acceso Admin</span>
+                    </a>
+                @endguest
+
+                <!-- Botón Modo Claro / Modo Oscuro -->
+                <button type="button" id="themeToggle" class="btn-theme-toggle" title="Cambiar modo claro/oscuro" aria-label="Cambiar tema">
+                    <i class="bi bi-moon-stars-fill" id="themeIcon"></i>
+                </button>
+
                 @auth
                     <a class="nav-link {{ request()->routeIs('posts.*') ? 'active fw-bold' : '' }}" href="{{ route('posts.index') }}">Publicaciones</a>
                     <a class="nav-link {{ request()->routeIs('categories.*') ? 'active fw-bold' : '' }}" href="{{ route('categories.index') }}">Categorías</a>

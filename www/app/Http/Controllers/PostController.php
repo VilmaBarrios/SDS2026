@@ -12,9 +12,24 @@ use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $query = Post::with('category')->withCount('images')->latest('date');
+        $categories = Category::orderBy('name')->get();
+
+        $query = Post::with('category')->withCount('images')
+            ->when($request->filled('buscar'), function ($query) use ($request) {
+                $texto = '%' . $request->buscar . '%';
+                $query->where(function ($q) use ($texto) {
+                    $q->where('title', 'ilike', $texto)
+                      ->orWhere('content', 'ilike', $texto)
+                      ->orWhere('authors', 'ilike', $texto);
+                });
+            })
+            ->when($request->filled('categoria'), function ($query) use ($request) {
+                $query->where('category_id', $request->categoria);
+            })
+            ->orderBy('date', 'asc')
+            ->orderBy('created_at', 'asc');
 
         if (! $this->esAdmin()) {
             $query->publicados();
@@ -22,7 +37,7 @@ class PostController extends Controller
 
         $posts = $query->get();
 
-        return view('posts.index', compact('posts'));
+        return view('posts.index', compact('posts', 'categories'));
     }
 
     public function create()
@@ -72,9 +87,7 @@ class PostController extends Controller
         unset($data['image'], $data['images']);
 
         if ($request->hasFile('image')) {
-            if ($post->image) {
-                Storage::disk('public')->delete($post->image);
-            }
+            $this->borrarArchivo($post->image);
             $data['image'] = $request->file('image')->store('posts', 'public');
         }
 
@@ -87,12 +100,10 @@ class PostController extends Controller
 
     public function destroy(Post $post)
     {
-        if ($post->image) {
-            Storage::disk('public')->delete($post->image);
-        }
+        $this->borrarArchivo($post->image);
 
         foreach ($post->images as $image) {
-            Storage::disk('public')->delete($image->path);
+            $this->borrarArchivo($image->path);
         }
 
         $post->delete();
@@ -104,7 +115,7 @@ class PostController extends Controller
     {
         $post = $image->post;
 
-        Storage::disk('public')->delete($image->path);
+        $this->borrarArchivo($image->path);
         $image->delete();
 
         return redirect()->route('posts.edit', $post)->with('success', 'Imagen eliminada de la galería.');
@@ -129,12 +140,12 @@ class PostController extends Controller
         }
     }
 
-        private function borrarArchivo(?string $ruta): void
-{
-    if ($ruta && ! str_starts_with($ruta, 'img/')) {
-        Storage::disk('public')->delete($ruta);
+    private function borrarArchivo(?string $ruta): void
+    {
+        if ($ruta && ! str_starts_with($ruta, 'img/')) {
+            Storage::disk('public')->delete($ruta);
+        }
     }
-}
 
     private function validar(Request $request): array
     {
@@ -150,5 +161,4 @@ class PostController extends Controller
             'status'      => 'required|in:borrador,publicado',
         ]);
     }
-
 }

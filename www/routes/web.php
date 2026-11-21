@@ -6,17 +6,13 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', fn () => redirect()->route('posts.index'));
-
-// Login y registro (solo para quien no ha iniciado sesión)
+Route::view('/', 'inicio.index')->name('inicio');
 Route::middleware('guest')->group(function () {
     Route::get('/login', [LoginController::class, 'showLogin'])->name('login');
     Route::post('/login', [LoginController::class, 'login']);
     Route::get('/register', [RegisterController::class, 'showRegister'])->name('register');
     Route::post('/register', [RegisterController::class, 'register']);
 });
-
-// Solo administrador (va primero para que /posts/create y /categories/create no choquen con /{id})
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('categories', CategoryController::class)->except(['index', 'show']);
 // Solo administrador (va primero para que /posts/create no choque con /posts/{post})
