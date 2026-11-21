@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class RegisterController extends Controller
@@ -27,11 +28,16 @@ class RegisterController extends Controller
         ]);
 
         User::create([
+        $user = User::create([
             'name'     => $data['name'],
             'email'    => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
 
         return redirect()->route('login')->with('success', 'Cuenta creada correctamente. Ahora puedes iniciar sesión.');
+        Auth::login($user);
+        $request->session()->regenerate();
+
+        return redirect()->route('posts.index')->with('success', 'Cuenta creada correctamente. ¡Bienvenido!');
     }
 }

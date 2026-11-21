@@ -15,9 +15,15 @@ Route::middleware('guest')->group(function () {
 });
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('categories', CategoryController::class)->except(['index', 'show']);
+// Solo administrador (va primero para que /posts/create no choque con /posts/{post})
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::resource('categories', CategoryController::class);
     Route::delete('/posts/imagenes/{image}', [PostController::class, 'eliminarImagen'])->name('posts.imagenes.destroy');
     Route::resource('posts', PostController::class)->except(['index', 'show']);
 });
+
+// Cualquier usuario con sesión (navegar publicaciones y consultar/buscar categorías)
+// Cualquier usuario con sesión
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
     Route::get('/posts', [PostController::class, 'index'])->name('posts.index');

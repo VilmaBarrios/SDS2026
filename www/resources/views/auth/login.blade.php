@@ -16,6 +16,20 @@
                     <div class="mb-3">
                         <label class="form-label">Correo electrónico</label>
                         <input type="email" name="email" value="{{ old('email') }}" autofocus
+                <h3 class="fw-bold text-center mb-4" style="color: #0d3b26;">Crear cuenta</h3>
+
+                <form action="{{ route('register') }}" method="POST">
+                    @csrf
+                    <div class="mb-3">
+                        <label class="form-label">Nombre completo</label>
+                        <input type="text" name="name" value="{{ old('name') }}" autofocus
+                               class="form-control @error('name') is-invalid @enderror">
+                        @error('name') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Correo electrónico</label>
+                        <input type="email" name="email" value="{{ old('email') }}"
                                class="form-control @error('email') is-invalid @enderror">
                         @error('email') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
@@ -37,6 +51,16 @@
 
                 <p class="text-center mt-3 mb-0">
                     ¿No tienes cuenta? <a href="{{ route('register') }}">Regístrate</a>
+                    <div class="mb-3">
+                        <label class="form-label">Confirmar contraseña</label>
+                        <input type="password" name="password_confirmation" class="form-control">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100">Registrarme</button>
+                </form>
+
+                <p class="text-center mt-3 mb-0">
+                    ¿Ya tienes cuenta? <a href="{{ route('login') }}">Inicia sesión</a>
                 </p>
             </div>
         </div>
