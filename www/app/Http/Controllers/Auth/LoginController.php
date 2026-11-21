@@ -22,7 +22,17 @@ class LoginController extends Controller
 
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
-            return redirect()->intended(route('posts.index'));
+
+            /** @var \App\Models\User $user */
+            $user = Auth::user();
+
+            if ($user->isAdmin()) {
+                return redirect()->route('posts.index')
+                    ->with('success', 'Sesión iniciada como Administrador.');
+            }
+
+            return redirect()->route('posts.index')
+                ->with('success', 'Sesión iniciada correctamente.');
         }
 
         return back()

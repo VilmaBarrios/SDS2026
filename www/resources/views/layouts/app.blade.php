@@ -44,9 +44,23 @@
     <nav class="navbar navbar-expand-lg navbar-dark navbar-iot shadow-sm mb-4">
         <div class="container">
             <a class="navbar-brand fw-bold" href="{{ route('posts.index') }}">SDS 2026</a>
-            <div class="navbar-nav ms-auto">
-                <a class="nav-link {{ request()->routeIs('posts.*') ? 'active fw-bold' : '' }}" href="{{ route('posts.index') }}">Publicaciones</a>
-                <a class="nav-link {{ request()->routeIs('categories.*') ? 'active fw-bold' : '' }}" href="{{ route('categories.index') }}">Categorías</a>
+            <div class="navbar-nav ms-auto align-items-center">
+                @auth
+                    <a class="nav-link {{ request()->routeIs('posts.*') ? 'active fw-bold' : '' }}" href="{{ route('posts.index') }}">Publicaciones</a>
+                    <a class="nav-link {{ request()->routeIs('categories.*') ? 'active fw-bold' : '' }}" href="{{ route('categories.index') }}">Categorías</a>
+
+                    <span class="nav-link text-white-50 small ms-2">
+                        {{ auth()->user()->name }} ({{ auth()->user()->isAdmin() ? 'Admin' : 'Usuario' }})
+                    </span>
+
+                    <form action="{{ route('logout') }}" method="POST" class="d-inline ms-2">
+                        @csrf
+                        <button type="submit" class="btn btn-outline-light btn-sm">Cerrar sesión</button>
+                    </form>
+                @else
+                    <a class="nav-link {{ request()->routeIs('login') ? 'active fw-bold' : '' }}" href="{{ route('login') }}">Iniciar sesión</a>
+                    <a class="nav-link {{ request()->routeIs('register') ? 'active fw-bold' : '' }}" href="{{ route('register') }}">Registrarse</a>
+                @endauth
             </div>
         </div>
     </nav>
