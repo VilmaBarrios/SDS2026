@@ -18,6 +18,8 @@
             <div class="collage">
                 @foreach($post->images as $image)
                    <img src="{{ $image->url() }}" alt="Evidencia {{ $loop->iteration }}" data-bs-toggle="modal" data-bs-target="#modalImagen">
+                    <img src="{{ asset('storage/' . $image->path) }}" alt="Evidencia {{ $loop->iteration }}"
+                         data-bs-toggle="modal" data-bs-target="#modalImagen">
                 @endforeach
             </div>
         @endif

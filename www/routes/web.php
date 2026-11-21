@@ -16,6 +16,9 @@ Route::middleware('guest')->group(function () {
     Route::post('/register', [RegisterController::class, 'register']);
 });
 
+// Solo administrador (va primero para que /posts/create y /categories/create no choquen con /{id})
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::resource('categories', CategoryController::class)->except(['index', 'show']);
 // Solo administrador (va primero para que /posts/create no choque con /posts/{post})
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('categories', CategoryController::class);
@@ -23,9 +26,12 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('posts', PostController::class)->except(['index', 'show']);
 });
 
+// Cualquier usuario con sesión (navegar publicaciones y consultar/buscar categorías)
 // Cualquier usuario con sesión
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
     Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
     Route::get('/posts/{post}', [PostController::class, 'show'])->name('posts.show');
+    Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
+    Route::get('/categories/{category}', [CategoryController::class, 'show'])->name('categories.show');
 });
