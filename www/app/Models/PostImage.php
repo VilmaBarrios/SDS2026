@@ -15,4 +15,10 @@ class PostImage extends Model
     {
         return $this->belongsTo(Post::class);
     }
+    public function url(): string
+{
+    return str_starts_with($this->path, 'img/')
+        ? asset($this->path)
+        : asset('storage/' . $this->path);
+}
 }

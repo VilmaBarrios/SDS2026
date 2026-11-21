@@ -3,7 +3,7 @@
 @section('content')
 <div class="card shadow-sm">
     @if($post->image)
-        <img src="{{ asset('storage/' . $post->image) }}" class="card-img-top" style="max-height:400px;object-fit:cover;" alt="{{ $post->title }}">
+        <img src="{{ $post->urlImagen() }}" class="card-img-top" style="max-height:400px;object-fit:cover;" alt="{{ $post->title }}">
     @endif
     <div class="card-body">
         <span class="badge bg-success-subtle text-success-emphasis border border-success-subtle mb-2">
@@ -17,8 +17,7 @@
             <h5 class="fw-bold mt-4 mb-3" style="color: #0d3b26;">Galería</h5>
             <div class="collage">
                 @foreach($post->images as $image)
-                    <img src="{{ asset('storage/' . $image->path) }}" alt="Evidencia {{ $loop->iteration }}"
-                         data-bs-toggle="modal" data-bs-target="#modalImagen">
+                   <img src="{{ $image->url() }}" alt="Evidencia {{ $loop->iteration }}" data-bs-toggle="modal" data-bs-target="#modalImagen">
                 @endforeach
             </div>
         @endif
