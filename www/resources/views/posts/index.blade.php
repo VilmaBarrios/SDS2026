@@ -3,7 +3,9 @@
 @section('content')
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h2 class="fw-bold" style="color: #0d3b26;">Publicaciones</h2>
-    <a href="{{ route('posts.create') }}" class="btn btn-primary">Nueva Publicación</a>
+    @if(auth()->user()?->isAdmin())
+        <a href="{{ route('posts.create') }}" class="btn btn-primary">Nueva Publicación</a>
+    @endif
 </div>
 
 <div class="row g-4">
@@ -18,9 +20,11 @@
                         <span class="badge bg-success-subtle text-success-emphasis border border-success-subtle">
                             {{ $post->category->name ?? 'Sin categoría' }}
                         </span>
-                        <span class="badge {{ $post->status === 'publicado' ? 'bg-success' : 'bg-secondary' }}">
-                            {{ ucfirst($post->status) }}
-                        </span>
+                        @if(auth()->user()?->isAdmin())
+                            <span class="badge {{ $post->status === 'publicado' ? 'bg-success' : 'bg-secondary' }}">
+                                {{ ucfirst($post->status) }}
+                            </span>
+                        @endif
                     </div>
 
                     <h5 class="card-title fw-bold" style="color: #0d3b26;">{{ $post->title }}</h5>
@@ -30,14 +34,16 @@
 
                     <div class="d-flex justify-content-between align-items-center pt-3 border-top border-success-subtle">
                         <a href="{{ route('posts.show', $post) }}" class="btn btn-sm btn-primary">Leer más</a>
-                        <div>
-                            <a href="{{ route('posts.edit', $post) }}" class="btn btn-sm btn-outline-success">Editar</a>
-                            <form action="{{ route('posts.destroy', $post) }}" method="POST" class="d-inline" onsubmit="return confirm('¿Seguro que deseas eliminar esta publicación?')">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-outline-danger">Eliminar</button>
-                            </form>
-                        </div>
+                        @if(auth()->user()?->isAdmin())
+                            <div>
+                                <a href="{{ route('posts.edit', $post) }}" class="btn btn-sm btn-outline-success">Editar</a>
+                                <form action="{{ route('posts.destroy', $post) }}" method="POST" class="d-inline" onsubmit="return confirm('¿Seguro que deseas eliminar esta publicación?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">Eliminar</button>
+                                </form>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>

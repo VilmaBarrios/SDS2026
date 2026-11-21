@@ -25,6 +25,7 @@
                 @foreach($post->images as $image)
                     <div class="col-6 col-md-3">
                        <img src="{{ $image->url() }}" class="img-thumbnail w-100" style="height:140px;object-fit:cover;">
+                        <img src="{{ asset('storage/' . $image->path) }}" class="img-thumbnail w-100" style="height:140px;object-fit:cover;">
                         <form action="{{ route('posts.imagenes.destroy', $image) }}" method="POST" class="mt-1"
                               onsubmit="return confirm('¿Eliminar esta imagen?')">
                             @csrf
