@@ -27,12 +27,14 @@ class RegisterController extends Controller
             'password.confirmed' => 'Las contraseñas no coinciden.',
         ]);
 
+        User::create([
         $user = User::create([
             'name'     => $data['name'],
             'email'    => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
 
+        return redirect()->route('login')->with('success', 'Cuenta creada correctamente. Ahora puedes iniciar sesión.');
         Auth::login($user);
         $request->session()->regenerate();
 
